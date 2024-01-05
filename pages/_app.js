@@ -14,7 +14,7 @@ const { chains, publicClient } = configureChains(
 
 const { connectors } = getDefaultWallets({
   appName: 'CryptoDevs DAO',
-  projectId: '12345',
+  projectId: '9b5af9fafa9878bc39cbed50a34e1b60',
   chains
 });
 
