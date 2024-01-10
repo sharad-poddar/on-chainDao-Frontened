@@ -7,7 +7,7 @@ import {NFTaddress,
   NFTabi} from '@/constant.js';
 import { ConnectButton } from '@rainbow-me/rainbowkit';
 import {useState, useEffect} from 'react';
-import { formatEther } from "viem/utils";
+import { formatEther, parseEther } from "viem/utils";
 import { useAccount, useBalance, useContractRead } from "wagmi";
 import { readContract, waitForTransaction, writeContract } from "wagmi/actions";
 import { Inter } from "next/font/google";
@@ -201,11 +201,12 @@ export default function Home() {
         abi: NFTabi.abi,
         address: NFTaddress,
         functionName: "mint",
-        args:[]
+        args:[],
+        value: parseEther('0.2'),
       })
       await waitForTransaction(tx);
     }catch(error){
-      window.alert(error);
+      alert('there is some error')
       console.log(error);
     }
     setLoading(false);
@@ -264,16 +265,16 @@ export default function Home() {
                 <p>AgainstVotes - {p.noVotes}</p>
                 {p.deadline.getTime() > Date.now() && !p.executed ? (
                   <div>
-                    <button onClick={() => {
-                      console.log(p.proposalId);
-                      voteForProposal(p.proposalId, 0)}}>count me in</button>
-                    <button onClick={() => voteForProposal(p.proposalId, 1)}>count me out</button>
-                  </div>):p.deadline.getTime() < Date.now() && !p.executed ? (
+                    <button onClick={() => 
+                      voteForProposal(p.proposalId, 0)}>count me in</button>
+                    <button onClick={() => 
+                      voteForProposal(p.proposalId, 1)}>count me out</button>
+                  </div>):!p.executed ? (
                       <button onClick={e => executeProposal(p.proposalId)}>
                         execute proposal
                       </button>):(
                       <div>
-                        {p.yesVotes > p.noVotes ? <p>EXECUTED: propsal was in favoured of commnity</p>: <p>EXECUTED: proposal was against community</p>}
+                        {p.yesVotes > p.noVotes ? <p>EXECUTED: propsal was in favoured of buying NFT</p>: <p>EXECUTED: proposal was against buying NFT</p>}
                       </div>)}
               </div>)
           })}
